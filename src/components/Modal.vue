@@ -17,6 +17,12 @@
   <div class='phone'>
     <input class="form-control" type="text" v-model='toEdit.phone' placeholder="Поиск">
   </div>
+  <p v-if="errors.length">
+    <b>Пожалуйста исправьте указанные ошибки:</b>
+    <ul>
+      <li v-for="(error, key) in errors" :key='key'>{{ error }}</li>
+    </ul>
+  </p>
   <div slot="modal-footer" class="w-100">
     <b-btn size="sm" class="float-right" variant="primary" @click="done">
       Принять
@@ -36,7 +42,12 @@ export default {
   data () {
     return {
       show: false,
-      toEdit: null
+      errors: [],
+      toEdit: {
+        name: '',
+        middleName: '',
+        phone: ''
+      }
     }
   },
   beforeMount () {
@@ -45,13 +56,24 @@ export default {
     console.log(this.toEdit)
   },
   methods: {
-    done () {
-      let query = {
-        index: this.editId,
-        person: this.toEdit
+    checkForm () {
+      if (this.toEdit.name !== '' && this.toEdit.middleName !== '' && this.toEdit.phone.length > 11) {
+        return true
       }
-      this.$store.commit('edit', query)
-      this.show = false
+      this.errors = []
+      if (this.toEdit.name === '') this.errors.push('Требуется указать имя.')
+      if (this.toEdit.middleName === '') this.errors.push('Требуется указать фамилию.')
+      if (this.toEdit.phone.length < 12) this.errors.push('Неверный формат номера.')
+    },
+    done () {
+      if (this.checkForm()) {
+        let query = {
+          index: this.editId,
+          person: this.toEdit
+        }
+        this.$store.commit('edit', query)
+        this.show = false
+      }
     }
   }
 }

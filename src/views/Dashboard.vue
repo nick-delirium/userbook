@@ -7,13 +7,33 @@
 
       <table class="table table-borderless">
         <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col" @click="sort('middleName')">Фамилия</th>
-            <th scope="col" @click="sort('name')">Имя</th>
-            <th scope="col" @click="sort('lastName')">Отчество</th>
-            <th scope="col" @click="sort('phone')">Телефон</th>
-            <th scope="col">Действия</th>
+          <tr class='tableHead'>
+            <th style='width:5%' scope="col">#</th>
+            <th style='width:20%' id='sortable' scope="col" >
+              <span @click="sort('middleName')">
+                Фамилия
+                <span v-if='currentSort == "middleName"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
+              </span>
+            </th>
+            <th style='width:20%' id='sortable' scope="col">
+              <span @click="sort('name')">
+                Имя
+                <span v-if='currentSort == "name"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
+              </span>
+            </th>
+            <th style='width:20%' id='sortable' scope="col" >
+              <span @click="sort('lastName')" >
+                Отчество
+                <span v-if='currentSort == "lastName"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
+              </span>
+            </th>
+            <th style='width:25%' id='sortable' scope="col" >
+              <span @click="sort('phone')">
+                Телефон
+                <span v-if='currentSort == "phone"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
+              </span>
+            </th>
+            <th style='width:10%' scope="col">Действия</th>
           </tr>
         </thead>
         <tbody>
@@ -139,7 +159,7 @@ export default {
       return (new Array(end - start + 1)).fill(undefined).map((_, i) => i + start)
     },
     formatPhone (phone) {
-      phone = `${phone.slice(0, 2)}(${phone.slice(2, 5)})${phone.slice(5, 8)}-${phone.slice(8, 10)}-${phone.slice(10, 12)}`
+      phone = `+${phone.slice(0, 1)}(${phone.slice(1, 4)})${phone.slice(4, 7)}-${phone.slice(7, 9)}-${phone.slice(9, 11)}`
       return phone
     }
   }
@@ -183,5 +203,15 @@ ul {
 }
 .customDeleteBtn:hover{
   text-decoration: none;
+}
+.tableHead th {
+  color: rgba(17, 17, 17, 0.7);
+}
+#sortable span {
+  color: black;
+  cursor: pointer;
+}
+.table {
+  table-layout: fixed;
 }
 </style>

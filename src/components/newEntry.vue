@@ -20,9 +20,8 @@
   </div>
   <div class='phone'>
     <input class="form-control"
-      @focus='addPlus'
       type="text"
-      v-model='toEdit.phone'
+      v-model="phoneMasked"
       placeholder="Телефон">
   </div>
   <p v-if="errors.length">
@@ -44,6 +43,22 @@
 </template>
 
 <script>
+import { createMask } from 'imask'
+
+const maskField = (field, maskOptions) => {
+  const mask = createMask(maskOptions)
+
+  return {
+    get: function () {
+      return mask.resolve(this[field])
+    },
+    set: function (value) {
+      mask.resolve(value)
+      this[field] = mask.unmaskedValue
+    }
+  }
+}
+
 export default {
   name: 'newEntry',
   props: ['id'],
@@ -51,6 +66,7 @@ export default {
     return {
       show: false,
       errors: [],
+      phone: '',
       toEdit: {
         name: '',
         middleName: '',
@@ -59,24 +75,24 @@ export default {
       }
     }
   },
-  beforeMount () {
-
-  },
   computed: {
-
+    phoneMasked: maskField('phone', {
+      mask: '+{7}(000)000-00-00'
+    })
   },
   methods: {
     checkForm () {
-      if (this.toEdit.name !== '' && this.toEdit.middleName !== '' && this.toEdit.phone.length > 11) {
+      if (this.toEdit.name !== '' && this.toEdit.middleName !== '' && this.phone.length === 11) {
         return true
       }
       this.errors = []
       if (this.toEdit.name === '') this.errors.push('Требуется указать имя.')
       if (this.toEdit.middleName === '') this.errors.push('Требуется указать фамилию.')
-      if (this.toEdit.phone.length < 12) this.errors.push('Неверный формат номера.')
+      if (this.toEdit.phone.length !== 11) this.errors.push('Неверный формат номера.')
     },
     done () {
       if (this.checkForm()) {
+        this.toEdit.phone = this.phone
         this.$store.commit('newPerson', this.toEdit)
         this.show = false
       }
@@ -91,9 +107,6 @@ export default {
 <style scoped>
 .phone {
   margin-top:10px
-}
-.name {
-  /* margin: 1px 2.5px */
 }
 .row {
   margin: 0 0px;
