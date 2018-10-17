@@ -3,7 +3,7 @@
     <div class="col">
     </div>
     <div class="col">
-      <input class="form-control" type="text" :value='searchQuery' @input="$emit('input', $event.target.value)"" placeholder="Поиск">
+      <input class="form-control" type="text" :value='searchQuery' @input="$emit('input', $event.target.value)" placeholder="Поиск">
     </div>
   </div>
 </template>
