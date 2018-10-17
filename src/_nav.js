@@ -5,9 +5,9 @@ export default {
       url: '/dashboard',
       icon: 'icon-speedometer',
       badge: {
-        variant: 'primary',
+        variant: 'primary'
         // text: 'NEW'
       }
-    },
+    }
   ]
 }

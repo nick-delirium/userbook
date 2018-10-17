@@ -15,7 +15,7 @@ describe('Tabs.vue', () => {
   it('sets the correct default data', () => {
     expect(typeof Tabs.data).toMatch('function')
     const defaultData = Tabs.data()
-    expect(defaultData.tabs).toEqual(["Calculator", "Shopping cart", "Charts"])
+    expect(defaultData.tabs).toEqual(['Calculator', 'Shopping cart', 'Charts'])
     expect(defaultData.tabIndex).toEqual([0, 0])
   })
   it('is Vue instance', () => {

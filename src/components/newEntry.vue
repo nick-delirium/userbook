@@ -9,7 +9,7 @@
         type="text" v-model='toEdit.middleName' placeholder="Фамилия">
     </div>
     <div class="col">
-      <input class="form-control name" 
+      <input class="form-control name"
         type="text" v-model='toEdit.name' placeholder="Имя">
     </div>
     <div class="col">
@@ -19,16 +19,16 @@
     </div>
   </div>
   <div class='phone'>
-    <input class="form-control" 
-      @focus='addPlus' 
-      type="text" 
-      v-model='toEdit.phone' 
+    <input class="form-control"
+      @focus='addPlus'
+      type="text"
+      v-model='toEdit.phone'
       placeholder="Телефон">
   </div>
   <p v-if="errors.length">
     <b>Пожалуйста исправьте указанные ошибки:</b>
     <ul>
-      <li v-for="error in errors">{{ error }}</li>
+      <li v-for="(error, key) in errors" :key='key'>{{ error }}</li>
     </ul>
   </p>
   <div slot="modal-footer" class="w-100">
@@ -45,44 +45,44 @@
 
 <script>
 export default {
-  name: "newEntry",
+  name: 'newEntry',
   props: ['id'],
-  data() {
+  data () {
     return {
       show: false,
       errors: [],
       toEdit: {
-        name: "",
-        middleName: "",
-        lastName: "",
-        phone: ""
-      },
+        name: '',
+        middleName: '',
+        lastName: '',
+        phone: ''
+      }
     }
   },
-  beforeMount() {
-    
+  beforeMount () {
+
   },
   computed: {
-    
+
   },
   methods: {
-    checkForm() {
-      if (this.toEdit.name != "" && this.toEdit.middleName != "" && this.toEdit.phone.length > 11) {
-        return true;
+    checkForm () {
+      if (this.toEdit.name !== '' && this.toEdit.middleName !== '' && this.toEdit.phone.length > 11) {
+        return true
       }
-      this.errors = [];
-      if (this.toEdit.name == "") this.errors.push("Требуется указать имя.")
-      if (this.toEdit.middleName == "") this.errors.push("Требуется указать фамилию.")
-      if (this.toEdit.phone.length < 12) this.errors.push("Неверный формат номера.")
+      this.errors = []
+      if (this.toEdit.name === '') this.errors.push('Требуется указать имя.')
+      if (this.toEdit.middleName === '') this.errors.push('Требуется указать фамилию.')
+      if (this.toEdit.phone.length < 12) this.errors.push('Неверный формат номера.')
     },
-    done() {
-      if(this.checkForm()) {
-        this.$store.commit('newPerson', this.toEdit);
-        this.show = false;
+    done () {
+      if (this.checkForm()) {
+        this.$store.commit('newPerson', this.toEdit)
+        this.show = false
       }
     },
-    addPlus() {
-      this.toEdit.phone = this.toEdit.phone == "" ? "+" : this.toEdit.phone;
+    addPlus () {
+      this.toEdit.phone = this.toEdit.phone === '' ? '+' : this.toEdit.phone
     }
   }
 }

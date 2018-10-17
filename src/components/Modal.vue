@@ -31,28 +31,28 @@
 
 <script>
 export default {
-  name: "modal",
-  props: ['id', "editId", "person"],
-  data() {
+  name: 'modal',
+  props: ['id', 'editId', 'person'],
+  data () {
     return {
       show: false,
-      toEdit: null,
+      toEdit: null
     }
   },
-  beforeMount() {
-    let person = Object.assign({}, this.$store.state.persons[this.editId]);
-    this.toEdit = person;
+  beforeMount () {
+    let person = Object.assign({}, this.$store.state.persons[this.editId])
+    this.toEdit = person
     console.log(this.toEdit)
   },
   methods: {
-    done() {
+    done () {
       let query = {
         index: this.editId,
         person: this.toEdit
       }
       this.$store.commit('edit', query)
-      this.show = false;
-    },
+      this.show = false
+    }
   }
 }
 </script>

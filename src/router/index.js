@@ -24,7 +24,7 @@ export default new Router({
           path: 'dashboard',
           name: 'Телефонная книга',
           component: Dashboard
-        },
+        }
       ]
     }
   ]

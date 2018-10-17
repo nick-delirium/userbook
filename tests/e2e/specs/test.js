@@ -19,8 +19,7 @@ module.exports = {
     // const devServer = browser.globals.devServerURL
     const devServer = process.env.VUE_DEV_SERVER_URL
 
-
-    browser.url(devServer).pause(500).expect.element('body').to.be.present
+    browser.url(devServer).pause(500).expect.element('body').to.be.present // eslint-disable-line no-unused-expressions
 
     browser.waitForElementVisible('.app', 10000)
       .assert.elementPresent('.app-header')
@@ -81,22 +80,22 @@ module.exports = {
       })
 
     browser
-    .resizeWindow(800, 600)
-    .pause(500)
+      .resizeWindow(800, 600)
+      .pause(500)
 
     browser
-    .pause(500)
-    .click('/html/body/div/header/button[1]', function (response) {
-      console.log('response', typeof response)
-      this.assert.cssClassPresent('/html/body', 'sidebar-show')
-    })
+      .pause(500)
+      .click('/html/body/div/header/button[1]', function (response) {
+        console.log('response', typeof response)
+        this.assert.cssClassPresent('/html/body', 'sidebar-show')
+      })
 
     browser
-    .pause(500)
-    .click('/html/body/div/div/div/nav/section/ul/li[1]/div/a', function (response) {
-      console.log('response', typeof response)
-      this.assert.cssClassNotPresent('/html/body', 'sidebar-show')
-    })
+      .pause(500)
+      .click('/html/body/div/div/div/nav/section/ul/li[1]/div/a', function (response) {
+        console.log('response', typeof response)
+        this.assert.cssClassNotPresent('/html/body', 'sidebar-show')
+      })
 
     browser
       .pause(5000)

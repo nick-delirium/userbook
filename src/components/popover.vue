@@ -12,7 +12,7 @@
         Предупреждение
       </template>
       <div>
-        <div>Данные записи #{{this.id+1}} будут полностью утеряны. Вы действительно хотите удалить ее?</div> 
+        <div>Данные записи #{{this.id+1}} будут полностью утеряны. Вы действительно хотите удалить ее?</div>
         <div style='margin: 0 auto; display: table'>
           <b-btn style='margin:2.5px' @click="onOk" size="sm" variant="danger">Удалить</b-btn>
           <b-btn style='margin:2.5px' @click="onClose" size="sm" variant="primary">Отмена</b-btn>
@@ -26,14 +26,14 @@ export default {
   name: 'popup',
   props: ['id', 'target', 'popoverShow'],
   methods: {
-    onOk() {
+    onOk () {
       this.$emit('remove')
     },
-    onClose() {
+    onClose () {
       this.popoverShow = false
     }
   }
-};
+}
 </script>
 
 <style>

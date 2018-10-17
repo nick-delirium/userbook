@@ -2,7 +2,7 @@
   <div class="animated fadeIn">
 
     <b-card>
-      
+
       <searchField v-model="searchQuery"/>
 
       <table class="table table-borderless">
@@ -24,29 +24,28 @@
             <td>{{person.lastName}}</td>
             <td>{{formatPhone(person.phone)}}</td>
             <td class='actions'>
-              <b-button id='edit' 
+              <b-button id='edit'
                 variant="link"
                 ref="button"
                 class='customDeleteBtn'
                 v-b-modal="'modal'+key"
               >
                 <i v-b-tooltip.hover title="Редактировать"
-                class="cui-pencil"></i> 
-              <Modal v-on:done='savePerson' :id='"modal"+key' 
+                class="cui-pencil"></i>
+              <Modal v-on:done='savePerson' :id='"modal"+key'
                 :editId='persons.findIndex(i => i.id === person.id)'/>
-              
+
               </b-button>
-              
-              
-              <b-button :id='"delete"+key' :disabled="popoverShow" 
+
+              <b-button :id='"delete"+key' :disabled="popoverShow"
                 variant="link"
                 ref="button"
                 class="customDeleteBtn"
               >
                 <i v-b-tooltip.hover title="Удалить"
-                class="cui-circle-x" ></i> 
-              <Popover :target='"delete"+key' :popoverShow='popoverShow' :id='persons.findIndex(i => i.id === person.id)' 
-                v-on:remove='rmConf(persons.findIndex(i => i.id === person.id))' 
+                class="cui-circle-x" ></i>
+              <Popover :target='"delete"+key' :popoverShow='popoverShow' :id='persons.findIndex(i => i.id === person.id)'
+                v-on:remove='rmConf(persons.findIndex(i => i.id === person.id))'
                 v-on:onClose='popoverShow = false'/>
               </b-button>
             </td>
@@ -56,7 +55,7 @@
       <div class="row">
         <div class="col">
           <ul>
-            <li :class='{active: isActive(page)}' v-for='(page, key) in pages' @click='activePage = page'>{{page}}</li>
+            <li :class='{active: isActive(page)}' v-for='(page, key) in pages' :key='key' @click='activePage = page'>{{page}}</li>
           </ul>
         </div>
         <div class="col">
@@ -73,78 +72,78 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'; 
-import Popover from '@/components/popover.vue';
-import Modal from '@/components/Modal.vue';
-import newEntry from '@/components/newEntry.vue';
+import { mapGetters } from 'vuex'
+import Popover from '@/components/popover.vue'
+import Modal from '@/components/Modal.vue'
+import newEntry from '@/components/newEntry.vue'
 import searchField from '@/components/searchField.vue'
-import { access } from 'fs';
 
 export default {
-  name: "dashboard",
+  name: 'dashboard',
   components: { Popover, Modal, newEntry, searchField },
-  data() {
+  data () {
     return {
-      currentSort: "middleName",
+      currentSort: 'middleName',
       sortDir: 'asc',
-      searchQuery: "",
+      searchQuery: '',
       popoverShow: false,
       editing: null,
       activePage: 1,
       limit: 5
-    };
+    }
   },
   computed: {
     ...mapGetters([
       'persons'
     ]),
-    shownPersons() {
-      if (this.searchQuery == '') return this.sortedPersons.slice(this.activePage*this.limit-this.limit, this.activePage*this.limit);
+    shownPersons () {
+      if (this.searchQuery === '') return this.sortedPersons.slice(this.activePage * this.limit - this.limit, this.activePage * this.limit)
       else {
         let query = this.searchQuery.toString().toLowerCase()
         return this.persons.filter(item => Object.values(item).find(i => i.toString().toLowerCase().includes(query)))
       }
     },
-    pages() {
-      let n = (this.searchQuery == '' ? this.persons.length : this.shownPersons.length)/this.limit;
+    pages () {
+      let n = (this.searchQuery === '' ? this.persons.length : this.shownPersons.length) / this.limit
       return [...this.range(1, Math.ceil(n))]
     },
-    sortedPersons() {
-      return this.persons.sort((a,b) => {
-        let modifier = 1;
-        if(this.sortDir === 'desc') modifier = -1;
-        if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
-        if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
-        return 0;
+    // sorting way from vue cookbook
+    sortedPersons () {
+      return this.persons.sort((a, b) => { // eslint-disable-line vue/no-side-effects-in-computed-properties
+        let modifier = 1
+        if (this.sortDir === 'desc') modifier = -1
+        if (a[this.currentSort] < b[this.currentSort]) return -1 * modifier
+        if (a[this.currentSort] > b[this.currentSort]) return 1 * modifier
+        return 0
       })
     }
   },
   methods: {
-    sort(s) {
+    sort (s) {
       console.log(s)
       if (s === this.currentSort) {
-        this.sortDir = this.sortDir === 'asc' ? 'desc' : 'asc';
+        this.sortDir = this.sortDir === 'asc' ? 'desc' : 'asc'
       }
-      this.currentSort = s;
+      this.currentSort = s
     },
-    savePerson() {
-      return false;
+    savePerson () {
+      return false
     },
-    rmConf(k) {
+    rmConf (k) {
       this.$store.commit('delete', k)
     },
-    isActive(page) {
-      return this.shownPage === page ? true : false
+    isActive (page) {
+      return this.shownPage === page
     },
-    range(start, end) {
-      return (new Array(end - start + 1)).fill(undefined).map((_, i) => i + start);
+    range (start, end) {
+      return (new Array(end - start + 1)).fill(undefined).map((_, i) => i + start)
     },
-    formatPhone(phone) {
-      phone = `${phone.slice(0,2)}(${phone.slice(2,5)})${phone.slice(5,8)}-${phone.slice(8, 10)}-${phone.slice(10,12)}`
-      return phone;
+    formatPhone (phone) {
+      phone = `${phone.slice(0, 2)}(${phone.slice(2, 5)})${phone.slice(5, 8)}-${phone.slice(8, 10)}-${phone.slice(10, 12)}`
+      return phone
     }
   }
-};
+}
 </script>
 
 <style scoped>
