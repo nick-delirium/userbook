@@ -9,7 +9,7 @@
         <thead>
           <tr class='tableHead'>
             <th style='width:5%' scope="col">#</th>
-            <th style='width:20%' id='sortable' scope="col" >
+            <th style='width:20%' class='sortable' scope="col" >
               <span @click="sort('middleName')">
                 Фамилия
                 <span v-if='currentSort === "middleName"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
@@ -44,6 +44,8 @@
             <td>{{person.lastName}}</td>
             <td>{{formatPhone(person.phone)}}</td>
             <td class='actions'>
+              <Modal v-on:done='savePerson' :id='"modal"+key'
+                :editId='persons.findIndex(i => i.id === person.id)'/>
               <b-button id='edit'
                 variant="link"
                 ref="button"
@@ -53,8 +55,7 @@
                 <i v-b-tooltip.hover title="Редактировать"
                 class="cui-pencil"></i>
               </b-button>
-              <Modal v-on:done='savePerson' :id='"modal"+key'
-                :editId='persons.findIndex(i => i.id === person.id)'/>
+
               <b-button :id='"delete"+key' :disabled="popoverShow"
                 variant="link"
                 ref="button"
@@ -138,7 +139,6 @@ export default {
   },
   methods: {
     sort (s) {
-      console.log(s)
       if (s === this.currentSort) {
         this.sortDir = this.sortDir === 'asc' ? 'desc' : 'asc'
       }
