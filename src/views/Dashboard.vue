@@ -12,25 +12,25 @@
             <th style='width:20%' id='sortable' scope="col" >
               <span @click="sort('middleName')">
                 Фамилия
-                <span v-if='currentSort == "middleName"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
+                <span v-if='currentSort === "middleName"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
               </span>
             </th>
-            <th style='width:20%' id='sortable' scope="col">
+            <th style='width:20%' class='sortable' scope="col">
               <span @click="sort('name')">
                 Имя
-                <span v-if='currentSort == "name"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
+                <span v-if='currentSort === "name"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
               </span>
             </th>
-            <th style='width:20%' id='sortable' scope="col" >
+            <th style='width:20%' class='sortable' scope="col" >
               <span @click="sort('lastName')" >
                 Отчество
-                <span v-if='currentSort == "lastName"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
+                <span v-if='currentSort === "lastName"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
               </span>
             </th>
-            <th style='width:25%' id='sortable' scope="col" >
+            <th style='width:25%' class='sortable' scope="col" >
               <span @click="sort('phone')">
                 Телефон
-                <span v-if='currentSort == "phone"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
+                <span v-if='currentSort === "phone"'>{{sortDir === "desc" ? "&darr;" : "&uarr;"}}</span>
               </span>
             </th>
             <th style='width:10%' scope="col">Действия</th>
@@ -205,7 +205,7 @@ ul {
 .tableHead th {
   color: rgba(17, 17, 17, 0.7);
 }
-#sortable span {
+.sortable span {
   color: black;
   cursor: pointer;
 }
