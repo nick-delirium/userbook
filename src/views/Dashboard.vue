@@ -52,11 +52,9 @@
               >
                 <i v-b-tooltip.hover title="Редактировать"
                 class="cui-pencil"></i>
+              </b-button>
               <Modal v-on:done='savePerson' :id='"modal"+key'
                 :editId='persons.findIndex(i => i.id === person.id)'/>
-
-              </b-button>
-
               <b-button :id='"delete"+key' :disabled="popoverShow"
                 variant="link"
                 ref="button"
@@ -81,8 +79,8 @@
         <div class="col">
           <b-button v-b-modal="'newEntry'" v-b-tooltip.hover title="Добавить новую запись" @click='editing = true' class='customButton'>
                 +
-          <newEntry :id="'newEntry'"/>
           </b-button>
+          <newEntry :id="'newEntry'"/>
 
         </div>
       </div>
